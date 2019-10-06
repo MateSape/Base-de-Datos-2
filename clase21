@@ -1,0 +1,155 @@
+1 - Docker Installation
+
+    Yo no instale redis en docker por eso este paso me lo salteo
+
+2 - init cli and ping pong
+
+    a - redis-cli 
+
+    b - ping
+        PONG
+
+    c - config get *max-*-entries*
+        1) "hash-max-ziplist-entries"
+        2) "512"
+        3) "set-max-intset-entries"
+        4) "512"
+        5) "zset-max-ziplist-entries"
+        6) "128"
+
+3 - String
+
+    set test "It's Working!"
+    get test
+
+4 - Hash
+
+    hmset myHash value1 "hola" value2 "que tal" value3 "como andas"
+        OK
+    hgetall myHash
+        1) "value1"
+        2) "hola"
+        3) "value2"
+        4) "que tal"
+        5) "value3"
+        6) "como andas"
+
+5 - List
+
+    lpush myList hola
+        (integer) 1
+    lpush myList soy
+        (integer) 2
+    lpush myList goku
+        (integer) 3
+    lrange myList 0 2
+        1) "goku"
+        2) "soy"
+        3) "hola"
+
+6 - Set
+
+    SADD mySet redis
+        (integer) 1
+    SADD mySet mongodb
+        (integer) 1
+    SADD mySet mysql
+        (integer) 1
+    SADD mySet mysql
+        (integer) 0
+    smembers mySet
+        1) "mysql"
+        2) "mongodb"
+        3) "redis"
+
+7 - Sorted Sets
+
+    ZADD myZet 1 redis
+        (integer) 1
+    ZADD myZet 2 mongodb
+        (integer) 1
+    ZADD myZet 3 mysql
+        (integer) 1
+    ZADD myZet 3 mysql
+        (integer) 0
+    ZADD myZet 4 mysql
+        (integer) 0
+    ZRANGE myZet 0 5 WITHSCORES
+        1) "redis"
+        2) "1"
+        3) "mongodb"
+        4) "2"
+        5) "mysql"
+        6) "4"
+
+8 - publish/subscribe
+
+subscribe myChat
+    Reading messages... (press Ctrl-C to quit)
+    1) "subscribe"
+    2) "myChat"
+    3) (integer) 1
+    1) "message"
+    2) "myChat"
+    3) "omae wa mou"
+    1) "message"
+    2) "myChat"
+    3) "shindeiru"
+
+publish myChat "omae wa mou"
+    (integer) 1
+publish myChat "shindeiru"
+    (integer) 1
+
+9 - 
+
+    MULTI
+        OK
+    SET transaction1 "nice"
+        QUEUED
+    get transaction1
+        QUEUED
+    EXEC
+        1) OK
+        2) "nice"
+
+10 -
+
+    Redis SAVE command is used to create a backup of the current Redis database.
+    Syntax
+
+    Following is the basic syntax of redis SAVE command.
+
+        127.0.0.1:6379> SAVE 
+
+    This command will create a dump.rdb file in your Redis directory.
+    Restore Redis Data
+
+    To restore Redis data, move Redis backup file (dump.rdb) 
+    into your Redis directory and start the server. 
+    To get your Redis directory, use CONFIG command of Redis as shown below.
+
+        127.0.0.1:6379> CONFIG get dir  
+            1) "dir" 
+            2) "/user/tutorialspoint/redis-2.8.13/src" 
+
+11 - 
+
+    Redis benchmark is the utility to check the performance of Redis by running n commands simultaneously.
+    
+    Syntax
+    redis-benchmark [option] [option value] 
+
+    Example
+
+    Following example checks Redis by calling 100000 commands.
+
+        redis-benchmark -n 100000
+
+12 - 
+
+    import redis
+
+    r = redis.Redis(host='localhost', port=6379, db=0, password="1234")
+    r.set('foo', 'bar')
+    print (r.get('foo'))
