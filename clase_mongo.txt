@@ -1,0 +1,135 @@
+Para realizar los siguientes ejercicios utilize la herramienta "nosqlclient"
+
+1 -
+$and: [
+         {directors:"Auguste Lumière"}, {directors:"Louis Lumière"}
+      ]
+
+
+2 - 
+
+{"location.address.city":"Bloomington"}
+
+3 - 
+
+{"location.address.city":"Bloomington"}
+
+{_id:1, theaterId:1}
+
+4 - 
+
+{
+ "movie_id": {
+  "$oid": "573a1390f29313caabcd4136"
+ }
+}
+
+5 - 
+
+{
+ "year": {
+  "$gte": 1800,
+  "$lte": 1850
+ }
+
+6 - 
+
+sort
+
+{
+ "year": 1
+}
+
+limit : 1
+
+
+## Count
+
+1 - 
+
+{
+ "location.address.city": "Bloomington"
+}
+
+aggregations
+
+1 - 
+
+[
+{"$group" : {_id:"$title", 'counter':{$sum:1}}},
+{'$match':{'counter':{"$gte":5}}},
+{'$sort':{'counter':-1}}
+]
+
+2 - 
+
+[
+ {
+  "$group": {
+   "_id": "$location.address.city",
+   "counter": {
+    "$sum": 1
+   }
+  }
+ },
+ {'$match':{'_id':"minessota"}},
+ {
+  "$sort": {
+   "counter": -1
+  }
+ }
+]
+
+3 - 
+
+[
+{"$group" : {_id:"$name", 'counter':{$sum:1}}},
+{'$sort':{'counter':-1}},
+{"$limit": 1}
+]
+
+4 -
+
+[
+ {
+  "$group": {
+   "_id": "$year",
+   "counter": {
+    "$sum": 1
+   }
+  }
+ },
+ {
+  "$match": {
+   "_id": {
+    "$gte": 1850,
+     "$lte": 1900
+   }
+  }
+ },
+ {
+  "$sort": {
+   "counter": -1
+  }
+ }
+]
+
+
+5 - 
+
+[
+ {
+  "$group": {
+   "_id": "$movie_id",
+   "counter": {
+    "$sum": 1
+   }
+  }
+ },
+  {'$match':{'_id': "573a1390f29313caabcd4386"}},
+ {
+  "$sort": {
+   "counter": -1
+  }
+ }
+]
